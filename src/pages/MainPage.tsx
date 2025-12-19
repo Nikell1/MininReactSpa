@@ -1,4 +1,4 @@
-import { useAppDispatch } from "../hook/redux";
+import { useAppDispatch, useAppSelector } from "../hook/redux";
 import { AirportCard } from "../components/AirportCard";
 import { AirportFilter } from "../components/AirportFilter";
 import { AirportSearch } from "../components/AirportSearch";
@@ -8,6 +8,7 @@ import { fetchAirports } from "../store/actions/airportActions";
 export function MainPage() {
 
     const dispatch = useAppDispatch()
+    const {error, loading, airports} = useAppSelector(state => state.airport)
 
     useEffect(() => {
         dispatch(fetchAirports())
@@ -20,7 +21,9 @@ export function MainPage() {
 
             <AirportFilter />
              
-            <AirportCard />
+           {
+             airports.map(airport => <AirportCard key={airport.id} airport={airport}/>)
+           }
         </div>
     )
 }
